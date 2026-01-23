@@ -50,7 +50,7 @@ export function ArchitecturePlanner({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             appIdea: message,
-            sessionId,
+            ...(sessionId && { sessionId }),
             provider,
           }),
         });
@@ -64,7 +64,12 @@ export function ArchitecturePlanner({
             });
             throw new Error(data.message || "Rate limit exceeded");
           }
-          throw new Error(data.message || data.error || "Failed to generate architecture");
+          // Show detailed validation errors
+          const errorMessage = data.message || data.error || "Failed to generate architecture";
+          const details = data.details 
+            ? `\n\nDetails: ${JSON.stringify(data.details, null, 2)}`
+            : "";
+          throw new Error(errorMessage + details);
         }
 
         // Update session ID

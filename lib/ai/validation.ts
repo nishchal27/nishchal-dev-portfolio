@@ -56,7 +56,7 @@ export function validatePrompt(prompt: string): {
 
 // Schema for architecture planning requests
 export const architectureRequestSchema = z.object({
-  appIdea: z.string().min(10).max(MAX_PROMPT_LENGTH),
+  appIdea: z.string().min(3, "App idea must be at least 3 characters").max(MAX_PROMPT_LENGTH),
   constraints: z
     .object({
       scale: z.string().optional(),
@@ -64,7 +64,7 @@ export const architectureRequestSchema = z.object({
       teamSize: z.string().optional(),
     })
     .optional(),
-  sessionId: z.string().uuid().optional(),
+  sessionId: z.string().uuid().nullish(),
   provider: z.enum(["openai", "anthropic"]).optional(),
 });
 
@@ -72,7 +72,7 @@ export const architectureRequestSchema = z.object({
 export const flowRequestSchema = z.object({
   featureName: z.string().min(3).max(200),
   context: z.string().max(MAX_INPUT_LENGTH).optional(),
-  sessionId: z.string().uuid().optional(),
+  sessionId: z.string().uuid().nullish(),
   provider: z.enum(["openai", "anthropic"]).optional(),
 });
 
@@ -81,13 +81,13 @@ export const costRequestSchema = z.object({
   trafficEstimate: z.string().min(1).max(500),
   aiUsagePattern: z.string().max(MAX_INPUT_LENGTH).optional(),
   currentArchitecture: z.string().max(MAX_INPUT_LENGTH).optional(),
-  sessionId: z.string().uuid().optional(),
+  sessionId: z.string().uuid().nullish(),
   provider: z.enum(["openai", "anthropic"]).optional(),
 });
 
 // Schema for system design requests
 export const systemDesignRequestSchema = z.object({
-  baseArchitecture: z.string().min(10).max(MAX_INPUT_LENGTH),
+  baseArchitecture: z.string().min(3, "Base architecture must be at least 3 characters").max(MAX_INPUT_LENGTH),
   changes: z
     .object({
       database: z.string().optional(),
@@ -96,7 +96,7 @@ export const systemDesignRequestSchema = z.object({
       cdn: z.boolean().optional(),
     })
     .optional(),
-  sessionId: z.string().uuid().optional(),
+  sessionId: z.string().uuid().nullish(),
   provider: z.enum(["openai", "anthropic"]).optional(),
 });
 

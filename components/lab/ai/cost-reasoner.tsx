@@ -72,7 +72,7 @@ export function CostReasoner({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             trafficEstimate: message,
-            sessionId,
+            ...(sessionId && { sessionId }),
             provider,
           }),
         });
@@ -86,7 +86,11 @@ export function CostReasoner({
             });
             throw new Error(data.message || "Rate limit exceeded");
           }
-          throw new Error(data.message || data.error || "Failed to analyze costs");
+          const errorMessage = data.message || data.error || "Failed to analyze costs";
+          const details = data.details 
+            ? `\n\nDetails: ${JSON.stringify(data.details, null, 2)}`
+            : "";
+          throw new Error(errorMessage + details);
         }
 
         // Update session ID
