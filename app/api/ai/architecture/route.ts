@@ -35,9 +35,13 @@ export async function POST(request: NextRequest) {
     const validationResult = architectureRequestSchema.safeParse(body);
 
     if (!validationResult.success) {
+      const errorMessages = validationResult.error.errors.map(
+        (err) => `${err.path.join(".")}: ${err.message}`
+      );
       return NextResponse.json(
         {
           error: "Invalid request",
+          message: errorMessages.join("; "),
           details: validationResult.error.errors,
         },
         { status: 400 }

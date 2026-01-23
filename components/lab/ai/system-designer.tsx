@@ -87,7 +87,7 @@ export function SystemDesigner({
           body: JSON.stringify({
             baseArchitecture: arch,
             changes: chgs,
-            sessionId,
+            ...(sessionId && { sessionId }),
             provider,
           }),
         });

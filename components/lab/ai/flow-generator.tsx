@@ -64,7 +64,7 @@ export function FlowGenerator({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             featureName: message,
-            sessionId,
+            ...(sessionId && { sessionId }),
             provider,
           }),
         });
@@ -78,7 +78,11 @@ export function FlowGenerator({
             });
             throw new Error(data.message || "Rate limit exceeded");
           }
-          throw new Error(data.message || data.error || "Failed to generate flow");
+          const errorMessage = data.message || data.error || "Failed to generate flow";
+          const details = data.details 
+            ? `\n\nDetails: ${JSON.stringify(data.details, null, 2)}`
+            : "";
+          throw new Error(errorMessage + details);
         }
 
         // Update session ID
