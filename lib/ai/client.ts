@@ -51,6 +51,11 @@ class AIClient {
     let tokensUsed = 0;
 
     try {
+      if (stream) {
+        // For streaming, we'll handle it differently
+        throw new Error("Streaming not implemented in this method");
+      }
+
       const response = await this.openai.chat.completions.create({
         model: "gpt-4o-mini", // Using mini for cost efficiency
         messages: [
@@ -59,18 +64,15 @@ class AIClient {
         ],
         max_tokens: this.maxTokens,
         temperature: 0.7,
-        stream,
+        stream: false,
       });
 
-      if (stream) {
-        // For streaming, we'll handle it differently
-        throw new Error("Streaming not implemented in this method");
-      }
-
-      const content = response.choices[0]?.message?.content || "";
+      // Type assertion: we know stream is false, so this is a ChatCompletion
+      const completion = response as OpenAI.Chat.Completions.ChatCompletion;
+      const content = completion.choices[0]?.message?.content || "";
       tokensUsed =
-        (response.usage?.prompt_tokens || 0) +
-        (response.usage?.completion_tokens || 0);
+        (completion.usage?.prompt_tokens || 0) +
+        (completion.usage?.completion_tokens || 0);
 
       const duration = Date.now() - startTime;
 
@@ -119,22 +121,24 @@ class AIClient {
     let tokensUsed = 0;
 
     try {
+      if (stream) {
+        throw new Error("Streaming not implemented in this method");
+      }
+
       const response = await this.anthropic.messages.create({
         model: "claude-3-5-sonnet-20241022",
         max_tokens: this.maxTokens,
         system: systemPrompt || "You are a helpful engineering assistant.",
         messages: [{ role: "user", content: prompt }],
-        stream,
+        stream: false,
       });
 
-      if (stream) {
-        throw new Error("Streaming not implemented in this method");
-      }
-
-      const content = response.content[0]?.type === "text" 
-        ? response.content[0].text 
+      // Type assertion: we know stream is false, so this is a Message
+      const message = response as Anthropic.Messages.Message;
+      const content = message.content[0]?.type === "text" 
+        ? message.content[0].text 
         : "";
-      tokensUsed = (response.usage?.input_tokens || 0) + (response.usage?.output_tokens || 0);
+      tokensUsed = (message.usage?.input_tokens || 0) + (message.usage?.output_tokens || 0);
 
       const duration = Date.now() - startTime;
 
