@@ -31,6 +31,13 @@
     @apply bg-background text-text-primary;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 @theme inline {

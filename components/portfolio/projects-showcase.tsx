@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { BackendSystemsBadge } from "@/components/ui/backend-systems-badge";
 import type { Project } from "@/data/portfolio";
 
-interface ProjectsProps {
+interface ProjectsShowcaseProps {
   projects: Project[];
 }
 
@@ -21,36 +21,24 @@ const categoryColors: Record<string, string> = {
   Backend: "bg-amber-500/10 text-amber-400 border-amber-500/20",
 };
 
-export function Projects({ projects }: ProjectsProps) {
-  // Filter out backend projects (they go in Engineering & Systems section)
-  const productProjects = projects.filter((p) => p.category !== "Backend");
-  // Show first 6 product projects on homepage
-  const featuredProjects = productProjects.slice(0, 6);
-
+export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
   return (
     <motion.section
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      animate="visible"
       variants={staggerContainer}
       className="container mx-auto px-4 py-16 sm:px-6 lg:px-8"
     >
-      <div className="flex items-center justify-between mb-12">
-        <motion.h2
-          variants={fadeInUp}
-          className="text-3xl font-bold tracking-tight sm:text-4xl"
-        >
+      <motion.div variants={fadeInUp} className="max-w-3xl mb-16">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl mb-4">
           Projects
-        </motion.h2>
-        <motion.div variants={fadeInUp}>
-          <Button href="/projects" variant="ghost" size="md">
-            View All
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </motion.div>
-      </div>
+        </h1>
+        <p className="text-lg leading-8 text-text-secondary sm:text-xl">
+          A collection of production-ready software systems I've built and shipped. Each project represents real engineering work—from architecture decisions to deployment.
+        </p>
+      </motion.div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((project) => (
+        {projects.map((project) => (
           <motion.div key={project.slug} variants={fadeInUp}>
             <Link href={`/projects/${project.slug}`}>
               <Card className="h-full flex flex-col hover:border-accent transition-all hover:shadow-lg cursor-pointer group">
@@ -58,11 +46,15 @@ export function Projects({ projects }: ProjectsProps) {
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <span
-                          className={`text-xs font-medium px-2 py-1 rounded border ${categoryColors[project.category] || categoryColors.Web}`}
-                        >
-                          {project.category}
-                        </span>
+                        {project.category === "Backend" ? (
+                          <BackendSystemsBadge />
+                        ) : (
+                          <span
+                            className={`text-xs font-medium px-2 py-1 rounded border ${categoryColors[project.category] || categoryColors.Web}`}
+                          >
+                            {project.category}
+                          </span>
+                        )}
                       </div>
                       <CardTitle className="group-hover:text-accent transition-colors">
                         {project.name}
@@ -85,7 +77,7 @@ export function Projects({ projects }: ProjectsProps) {
                       For: {project.targetAudience}
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies.slice(0, 3).map((tech) => (
+                      {project.technologies.slice(0, 4).map((tech) => (
                         <span
                           key={tech}
                           className="text-xs font-mono px-2 py-1 rounded bg-surface border border-border text-text-secondary"
@@ -93,9 +85,9 @@ export function Projects({ projects }: ProjectsProps) {
                           {tech}
                         </span>
                       ))}
-                      {project.technologies.length > 3 && (
+                      {project.technologies.length > 4 && (
                         <span className="text-xs font-mono px-2 py-1 rounded bg-surface border border-border text-text-secondary">
-                          +{project.technologies.length - 3}
+                          +{project.technologies.length - 4}
                         </span>
                       )}
                     </div>
