@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ProjectDetail } from "@/components/portfolio/project-detail";
+import { BackendProjectDetail } from "@/components/portfolio/backend-project-detail";
 import { portfolioData } from "@/data/portfolio";
 
 interface PageProps {
@@ -38,11 +39,17 @@ export default async function ProjectPage({ params }: PageProps) {
     notFound();
   }
 
+  const isBackendProject = project.category === "Backend";
+
   return (
     <>
       <Header />
       <main>
-        <ProjectDetail project={project} />
+        {isBackendProject ? (
+          <BackendProjectDetail project={project} />
+        ) : (
+          <ProjectDetail project={project} />
+        )}
       </main>
       <Footer />
     </>

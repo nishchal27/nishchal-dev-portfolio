@@ -18,6 +18,7 @@ const categoryColors: Record<string, string> = {
   Mobile: "bg-green-500/10 text-green-400 border-green-500/20",
   Platform: "bg-orange-500/10 text-orange-400 border-orange-500/20",
   Web: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+  Backend: "bg-amber-500/10 text-amber-400 border-amber-500/20",
 };
 
 export function ProjectDetail({ project }: ProjectDetailProps) {

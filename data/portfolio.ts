@@ -3,7 +3,7 @@ export interface Project {
   name: string;
   tagline: string;
   description: string;
-  category: "SaaS" | "AI" | "Mobile" | "Platform" | "Web";
+  category: "SaaS" | "AI" | "Mobile" | "Platform" | "Web" | "Backend";
   targetAudience: string;
   liveUrl?: string;
   githubUrl?: string;
@@ -12,6 +12,11 @@ export interface Project {
   problem: string;
   solution: string;
   engineeringHighlights: string[];
+  // Backend-specific fields
+  engineeringGoals?: string[];
+  systemArchitecture?: string[];
+  experiments?: string[];
+  performanceHighlights?: string[];
 }
 
 export const portfolioData = {
@@ -193,6 +198,70 @@ export const portfolioData = {
         "AI integration for content assistance",
         "Responsive design for all devices",
         "Clean, maintainable codebase"
+      ],
+    },
+    {
+      slug: "e-commerce-backend",
+      name: "E-commerce Backend Engineering Lab",
+      tagline: "Backend Engineering Lab — Production-Minded E-commerce System",
+      description:
+        "A production-minded NestJS e-commerce backend built as an engineering lab to experiment with real backend architecture, test performance characteristics, and study how production systems behave under load. Focuses on caching strategies, observability, data structures, and scalability tradeoffs.",
+      category: "Backend",
+      targetAudience: "Backend engineers and systems architects",
+      githubUrl: "https://github.com/nishchal27/e-commerce-backend-repo",
+      technologies: ["NestJS", "TypeScript", "PostgreSQL", "Prisma", "Redis", "Prometheus", "Docker", "k6"],
+      keyFeatures: [
+        "Stateless API design with modular NestJS architecture",
+        "Caching experiments: in-memory LRU vs Redis",
+        "Prometheus metrics and structured logging",
+        "Load testing with k6 for performance benchmarking",
+        "Dockerized production-like local environment",
+        "Data structures applied in real services (LRU cache implementation)"
+      ],
+      problem: "Understanding how real backend systems behave in production requires hands-on experimentation with architecture, caching, observability, and performance under load.",
+      solution: "A production-minded backend system designed as an engineering lab to explore stateless API design, caching strategies, observability patterns, and system behavior under load.",
+      engineeringHighlights: [
+        "Modular NestJS architecture with clean separation (products, auth scaffold, algorithms)",
+        "Custom LRU cache implementation for in-memory caching experiments",
+        "Redis integration for distributed caching comparison",
+        "Prometheus metrics endpoint with request tracking and performance monitoring",
+        "Structured JSON logging with request ID correlation",
+        "Docker Compose setup for local production-like infrastructure (PostgreSQL, Redis, Prometheus)",
+        "Load testing scripts with k6 for baseline and cache performance comparison",
+        "Focus on behavior under load, not feature completeness"
+      ],
+      engineeringGoals: [
+        "Experiment with stateless API design patterns",
+        "Test and compare caching strategies (in-memory LRU vs Redis)",
+        "Study system behavior under load with k6",
+        "Apply data structures and algorithms in real services",
+        "Implement observability with Prometheus metrics and structured logging",
+        "Observe scalability and performance tradeoffs in practice"
+      ],
+      systemArchitecture: [
+        "Stateless API servers with NestJS modular architecture",
+        "PostgreSQL database with Prisma ORM for type-safe data access",
+        "Redis for distributed caching and session storage",
+        "In-memory LRU cache for comparison experiments",
+        "Prometheus for metrics collection and monitoring",
+        "Docker containerization for consistent local development",
+        "Background workers architecture (scaffold for future expansion)"
+      ],
+      experiments: [
+        "LRU cache implementation: Custom in-memory cache with configurable TTL and size limits",
+        "Cache performance comparison: Baseline (no cache) vs in-memory LRU vs Redis",
+        "Load testing: k6 scripts for measuring request throughput and latency",
+        "Observability patterns: Prometheus metrics, structured logging, request tracing",
+        "Database query optimization: Prisma query patterns and indexing strategies",
+        "Modular architecture: Clean separation between products, auth, and algorithm modules"
+      ],
+      performanceHighlights: [
+        "Request duration tracking via Prometheus histograms",
+        "Cache hit/miss ratio monitoring",
+        "Memory usage tracking (process_resident_memory_bytes)",
+        "CPU usage monitoring (process_cpu_seconds_total)",
+        "HTTP request metrics by route, method, and status code",
+        "Load testing results comparing baseline vs cached performance"
       ],
     },
   ] as Project[],
