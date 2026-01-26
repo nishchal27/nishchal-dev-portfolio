@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef, ReactNode } from "react";
+import { ButtonHTMLAttributes, forwardRef, ReactNode, AnchorHTMLAttributes } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -7,6 +7,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
   asChild?: boolean;
   href?: string;
+  target?: string;
+  rel?: string;
 }
 
 const buttonClasses = (
@@ -29,10 +31,25 @@ const buttonClasses = (
   );
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", asChild, href, children, ...props }, ref) => {
+  ({ className, variant = "primary", size = "md", asChild, href, target, rel, children, ...props }, ref) => {
     const classes = cn(buttonClasses(variant, size), className);
 
     if (href) {
+      // For external links (with target), use anchor tag
+      if (target || href.startsWith("http")) {
+        return (
+          <a
+            href={href}
+            target={target}
+            rel={rel}
+            className={classes}
+            {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
+          >
+            {children}
+          </a>
+        );
+      }
+      // For internal links, use Next.js Link
       return (
         <Link href={href} className={classes} {...(props as any)}>
           {children}

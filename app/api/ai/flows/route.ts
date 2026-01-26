@@ -35,14 +35,14 @@ export async function POST(request: NextRequest) {
     const validationResult = flowRequestSchema.safeParse(body);
 
     if (!validationResult.success) {
-      const errorMessages = validationResult.error.errors.map(
+      const errorMessages = validationResult.error.issues.map(
         (err) => `${err.path.join(".")}: ${err.message}`
       );
       return NextResponse.json(
         {
           error: "Invalid request",
           message: errorMessages.join("; "),
-          details: validationResult.error.errors,
+          details: validationResult.error.issues,
         },
         { status: 400 }
       );
@@ -88,10 +88,12 @@ export async function POST(request: NextRequest) {
     // Build prompt
     const prompt = buildFlowPrompt({
       userInput: sanitized,
-      sessionHistory: sessionHistory.map((msg) => ({
-        role: msg.role,
-        content: msg.content,
-      })),
+      sessionHistory: sessionHistory
+        .filter((msg) => msg.role !== "system")
+        .map((msg) => ({
+          role: msg.role as "user" | "assistant",
+          content: msg.content,
+        })),
       metadata: { context },
     });
 
