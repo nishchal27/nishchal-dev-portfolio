@@ -6,6 +6,7 @@ import Link from "next/link";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { BackendSystemsBadge } from "@/components/ui/backend-systems-badge";
 import type { Project } from "@/data/portfolio";
 
 interface BackendProjectDetailProps {
@@ -33,9 +34,7 @@ export function BackendProjectDetail({ project }: BackendProjectDetailProps) {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-sm font-medium px-3 py-1 rounded border bg-amber-500/10 text-amber-400 border-amber-500/20">
-              Backend Engineering Lab
-            </span>
+            <BackendSystemsBadge />
           </div>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl mb-4">
             {project.name}

@@ -22,8 +22,10 @@ const categoryColors: Record<string, string> = {
 };
 
 export function Projects({ projects }: ProjectsProps) {
-  // Show first 6 projects on homepage
-  const featuredProjects = projects.slice(0, 6);
+  // Filter out backend projects (they go in Engineering & Systems section)
+  const productProjects = projects.filter((p) => p.category !== "Backend");
+  // Show first 6 product projects on homepage
+  const featuredProjects = productProjects.slice(0, 6);
 
   return (
     <motion.section

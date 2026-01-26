@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BackendSystemsBadge } from "@/components/ui/backend-systems-badge";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectsShowcaseProps {
@@ -45,11 +46,15 @@ export function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <span
-                          className={`text-xs font-medium px-2 py-1 rounded border ${categoryColors[project.category] || categoryColors.Web}`}
-                        >
-                          {project.category}
-                        </span>
+                        {project.category === "Backend" ? (
+                          <BackendSystemsBadge />
+                        ) : (
+                          <span
+                            className={`text-xs font-medium px-2 py-1 rounded border ${categoryColors[project.category] || categoryColors.Web}`}
+                          >
+                            {project.category}
+                          </span>
+                        )}
                       </div>
                       <CardTitle className="group-hover:text-accent transition-colors">
                         {project.name}
