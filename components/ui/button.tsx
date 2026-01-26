@@ -32,7 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", asChild, href, children, ...props }, ref) => {
     const classes = cn(buttonClasses(variant, size), className);
 
-    if (asChild && href) {
+    if (href) {
       return (
         <Link href={href} className={classes} {...(props as any)}>
           {children}

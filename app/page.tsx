@@ -16,9 +16,9 @@ export default function Home() {
           title={portfolioData.title}
           tagline={portfolioData.tagline}
         />
+        <Projects projects={portfolioData.projects} />
         <About bio={portfolioData.bio} />
         <Skills skills={portfolioData.skills} />
-        <Projects projects={portfolioData.projects} />
       </main>
       <Footer />
     </>

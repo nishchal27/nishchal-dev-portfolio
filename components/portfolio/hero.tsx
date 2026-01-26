@@ -31,9 +31,12 @@ export function Hero({ name, title, tagline }: HeroProps) {
           {tagline}
         </p>
         <div className="mt-10 flex gap-4">
-          <Button href="/lab" size="lg">
-            Explore Engineering Lab
+          <Button href="/projects" size="lg">
+            View Projects
             <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+          <Button href="/lab" variant="secondary" size="lg">
+            Engineering Lab
           </Button>
         </div>
       </motion.div>
