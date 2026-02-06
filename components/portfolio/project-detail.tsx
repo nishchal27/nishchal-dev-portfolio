@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { ExternalLink, Github, ArrowLeft, Check } from "lucide-react";
 import Link from "next/link";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ProjectScreenshotGallery } from "@/components/portfolio/project-screenshot-gallery";
+import { ProjectWorkflow } from "@/components/portfolio/project-workflow";
 import type { Project } from "@/data/portfolio";
 
 interface ProjectDetailProps {
@@ -81,6 +83,17 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           </div>
         </div>
 
+        {/* Screenshots — hero gallery */}
+        {project.screenshots && project.screenshots.length > 0 && (
+          <motion.section variants={fadeInUp} className="mb-16">
+            <h2 className="text-2xl font-semibold mb-6">In the app</h2>
+            <ProjectScreenshotGallery
+              screenshots={project.screenshots}
+              projectName={project.name}
+            />
+          </motion.section>
+        )}
+
         {/* Overview */}
         <motion.section variants={fadeInUp} className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Overview</h2>
@@ -88,6 +101,15 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             {project.description}
           </p>
         </motion.section>
+
+        {/* Workflow (when present, e.g. WIO OS) */}
+        {project.workflow && (
+          <ProjectWorkflow
+            title={project.workflow.title}
+            summary={project.workflow.summary}
+            steps={project.workflow.steps}
+          />
+        )}
 
         {/* Problem & Solution */}
         <motion.div variants={fadeInUp} className="grid gap-6 sm:grid-cols-2 mb-12">

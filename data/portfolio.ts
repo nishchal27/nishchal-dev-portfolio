@@ -1,3 +1,14 @@
+export interface ProjectScreenshot {
+  src: string;
+  alt: string;
+  type?: "desktop" | "mobile";
+}
+
+export interface ProjectWorkflowStep {
+  label: string;
+  description: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -12,6 +23,12 @@ export interface Project {
   problem: string;
   solution: string;
   engineeringHighlights: string[];
+  screenshots?: ProjectScreenshot[];
+  workflow?: {
+    title: string;
+    summary: string;
+    steps: ProjectWorkflowStep[];
+  };
   // Backend-specific fields
   engineeringGoals?: string[];
   systemArchitecture?: string[];
@@ -58,6 +75,11 @@ export const portfolioData = {
         "Type-safe stack with Next.js, TypeScript, and Prisma",
         "Clerk authentication with secure API key storage"
       ],
+      screenshots: [
+        { src: "/author-ai-screenshots/author-ai-landing-page-screenshot.png", alt: "AuthorAI landing page", type: "desktop" },
+        { src: "/author-ai-screenshots/author-ai-strategy-page-screenshot.png", alt: "AuthorAI strategy page", type: "desktop" },
+        { src: "/author-ai-screenshots/author-ai-linkedin-content-page-screenshot.png", alt: "AuthorAI LinkedIn content generation", type: "desktop" },
+      ],
     },
     {
       slug: "lexnify",
@@ -82,6 +104,11 @@ export const portfolioData = {
         "Clean, maintainable codebase",
         "Developer experience focus",
         "Scalable platform design"
+      ],
+      screenshots: [
+        { src: "/lexnify-screenshot/lexnify-landing-desktop.png", alt: "Lexnify landing page desktop", type: "desktop" },
+        { src: "/lexnify-screenshot/lexnify-landing-mobile.png", alt: "Lexnify landing mobile", type: "mobile" },
+        { src: "/lexnify-screenshot/lexnify-event-form-page.png", alt: "Lexnify event form", type: "desktop" },
       ],
     },
     {
@@ -174,6 +201,34 @@ export const portfolioData = {
       ],
     },
     {
+      slug: "rhymely",
+      name: "Rhymely",
+      tagline: "Gentle, awareness-first habit app for mindful living",
+      description:
+        "A calm habit app that helps users notice their habits (e.g. sugar and junk food) through daily check-ins, soft streaks, and emotional feedback. Clean minimal design, non-judgmental language, and one primary action per screen. Live on web and available on the Play Store.",
+      category: "Mobile",
+      targetAudience: "People who want to build awareness around habits without pressure or shame",
+      liveUrl: "https://rhymely.app",
+      technologies: ["Next.js 14", "React 18", "TypeScript", "Tailwind CSS", "shadcn/ui", "TanStack Query", "Framer Motion", "Firebase", "Google Play Billing", "OpenAI"],
+      keyFeatures: [
+        "Daily check-in — simple Yes/No questions about habits; zero distractions, centered layout",
+        "Reflection — gentle, non-judgmental messages after check-in; focus on awareness and honesty",
+        "Soft streak — days checked in (not “perfect days”); gentle display, no pressure",
+        "Weekly summary — text-based insights, no charts; gentle pattern observations",
+        "Elegance and calm — minimal design, soft colors, emotional safety"
+      ],
+      problem: "Many people want to notice and shift habits (like sugar or junk food) but are put off by judgmental or gamified apps that add pressure.",
+      solution: "An awareness-first app that prioritizes elegance, calmness, and emotional safety—daily check-ins, soft streaks, and supportive reflections without scores or shame.",
+      engineeringHighlights: [
+        "Next.js 14 App Router with server components where possible",
+        "Firebase (Firestore, Auth) for user and check-in data; user-isolated security rules",
+        "TanStack Query v5 for server state (user, check-ins, summaries)",
+        "Design system with tokens (warm off-white, soft sage, gentle mint); Inter typography",
+        "Touch optimizations and Android back button handling for WebView/Play Store",
+        "Optional OpenAI integration for AI reflections; code splitting and lazy loading"
+      ],
+    },
+    {
       slug: "pss-mumbai",
       name: "PSS Mumbai",
       tagline: "Public-facing website + admin dashboard for charity/NGO",
@@ -198,6 +253,55 @@ export const portfolioData = {
         "AI integration for content assistance",
         "Responsive design for all devices",
         "Clean, maintainable codebase"
+      ],
+    },
+    {
+      slug: "wio-os-app",
+      name: "Work Intelligence OS",
+      tagline: "Personal-first work intelligence and reflection for developers & knowledge workers",
+      description:
+        "A reflection layer on top of how you work: capture what you actually did, see patterns in context switching and work-type mix, and close each day with clarity. Web app, PWA, and Android app—same account and data. No productivity scores; only clarity, patterns, and closure.",
+      category: "SaaS",
+      targetAudience: "Developers and knowledge workers who want clarity over hustle",
+      liveUrl: "https://wio-dev.vercel.app",
+      technologies: ["Next.js 14", "TypeScript", "Tailwind CSS", "shadcn/ui", "Prisma", "PostgreSQL", "Clerk", "OpenAI", "Recharts", "Resend", "Web Push"],
+      keyFeatures: [
+        "Daily work log — date, project, work type, note, optional task link",
+        "Projects with goals, tasks, milestones — list, board, calendar views",
+        "AI Project Planner — describe a project, get suggested goals/tasks/milestones",
+        "Dashboard (Today) — narrative briefing, focus time, plan vs reality",
+        "Insights — Day, Week, Month narrative + charts (focus vs reactive, context switching)",
+        "Patterns — last 14 days: context switching, project mix, work-type balance",
+        "Close the day — end-of-day reflection from your data + optional note",
+        "Reminders — end-of-day, weekly, overdue, no-progress; in-app, email, OS push"
+      ],
+      problem: "Most of us juggle several projects and plan more than we can do. Tools track plans but not reality—leading to guilt and a sense that work never quite makes sense.",
+      solution: "A reflection layer that captures reality, surfaces patterns, and closes the loop with calm end-of-day closure—no scores, no shame.",
+      engineeringHighlights: [
+        "Day / Week / Month engines — pure logic from logs; no DB in engine code",
+        "Narratives powered by OpenAI (gpt-4o-mini) when key set; fallback templates",
+        "Server Actions for mutations; cron + DB for reminders, push, weekly insights",
+        "Recharts for insight and pattern charts; @dnd-kit for sortable project views",
+        "Clerk auth; Resend for email; Web Push (VAPID) for OS-level nudges",
+        "Single codebase: web, PWA, Android (Trusted Web Activity); timezone-aware"
+      ],
+      workflow: {
+        title: "Core workflow",
+        summary: "Everything in the app supports one loop: Plan (optional) → Log → Insight → Closure, with gentle reminders keeping the loop in view.",
+        steps: [
+          { label: "Plan", description: "Define projects, goals, tasks, milestones—or get a first draft from the AI Project Planner. This is what you intend." },
+          { label: "Log", description: "Record what you actually did: date, project, work type, short note, and optionally which task. This is what happened." },
+          { label: "Insight", description: "The app turns logs into a daily briefing, weekly story, monthly view, and patterns over the last 14 days. Observations only; no scores." },
+          { label: "Closure", description: "Close the day with a short reflection (built from your data) and an optional note. A mental bookmark: today is done." },
+        ],
+      },
+      screenshots: [
+        { src: "/wio-os-app-screenshots/dashboard-comp.png", alt: "WIO dashboard — today's briefing", type: "desktop" },
+        { src: "/wio-os-app-screenshots/insights-comp.png", alt: "WIO insights — day, week, month", type: "desktop" },
+        { src: "/wio-os-app-screenshots/projects-comp.png", alt: "WIO projects — goals, tasks, milestones", type: "desktop" },
+        { src: "/wio-os-app-screenshots/project-details.png", alt: "WIO project details view", type: "desktop" },
+        { src: "/wio-os-app-screenshots/pattern.png", alt: "WIO patterns — 14-day view", type: "desktop" },
+        { src: "/wio-os-app-screenshots/notification-mob.png", alt: "WIO notifications on mobile", type: "mobile" },
       ],
     },
     {
